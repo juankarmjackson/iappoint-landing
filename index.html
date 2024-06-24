@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+    <title>IAppoint</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background-color: #1a1a1a; /* Fondo oscuro para simular el efecto opaco */
+            cursor: url('futuristic-cursor.png'), auto; /* Cursor futurista */
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8); /* Color de fondo con opacidad */
+            backdrop-filter: blur(25px);
+            background-color: rgba(36, 36, 43, .5);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            max-width: 1200px;
+            margin: auto;
+            min-height: 100px;
+        }
+
+        .logo {
+            flex: 1;
+            text-align: center;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex: 2;
+            justify-content: flex-end;
+        }
+
+        .links a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para enlaces */
+        }
+
+        .links a:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Efecto hover con opacidad */
+        }
+
+        .button {
+            background-color: #00bfff; /* Color del botón "Regístrate" */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para botones */
+        }
+
+        .comenzar {
+            background-color: #00bfff; /* Color del botón "Regístrate" */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para botones */
+
+        }
+
+        .button:hover {
+            background-color: #009acd;
+        }
+
+        .button-login {
+            border: 1px solid white;
+            padding: 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para botones */
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu-toggle div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 4px;
+            transition: 0.3s;
+        }
+
+        .slider {
+            position: relative;
+            overflow: hidden;
+            margin-top: 100px; /* Para asegurarse de que el slider no se superponga al header */
+        }
+
+        .slider video {
+            width: 100%;
+            height: auto;
+        }
+
+        .gancho, .onboarding {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-align: center;
+        }
+
+        .gancho {
+            left: 10%;
+            width: 40%;
+        }
+
+        .onboarding {
+            right: 10%;
+            width: 40%;
+        }
+
+        .gancho h1 {
+            font-size: 3em;
+            margin: 0 0 20px 0;
+        }
+
+        .gancho p {
+            font-size: 1.5em;
+            margin: 0 0 20px 0;
+        }
+
+        .gancho button {
+            padding: 15px 30px;
+            font-size: 1em;
+            color: white;
+            background-color: #00bfff;
+            border: none;
+            border-radius: 5px;
+            cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para botones */
+        }
+
+        .gancho span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+
+        .onboarding img {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+        }
+
+        .textarea:before {
+            background: #0fbffd;
+            border-radius: 300px;
+            bottom: -30px;
+            content: "";
+            filter: blur(30px);
+            height: 100%;
+            left: -30px;
+            opacity: .7;
+            position: absolute;
+            width: 100%;
+        }
+
+        /* Estilos para la barra de desplazamiento */
+        ::-webkit-scrollbar {
+            width: 12px; /* Ancho de la barra de desplazamiento */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; /* Color del track de la barra de desplazamiento */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #00bfff; /* Color de la parte de la barra de desplazamiento */
+            border-radius: 10px; /* Bordes redondeados */
+            border: 3px solid #1a1a1a; /* Espacio alrededor del pulgar de desplazamiento */
+        }
+
+        @media (max-width: 768px) {
+            .box-header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+            }
+
+            .links a {
+                width: 100%;
+                text-align: center;
+                padding: 10px 20px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active div:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active div:nth-child(3) {
+                transform: rotate(-45deg) translate(10px, -11px);
+            }
+
+            .links.active {
+                display: flex;
+            }
+
+            .gancho {
+                left: 5%;
+                width: 90%;
+            }
+
+            .gancho h1 {
+                font-size: 2em;
+            }
+
+            .gancho p {
+                font-size: 1em;
+            }
+
+            .onboarding {
+                display: none;
+            }
+
+            .slider video {
+    width: 250%;
+    height: auto;
+}
+
+            
+        }
+
+
+        .color {
+    background-image: linear-gradient(180deg, rgba(36, 36, 46, .8), rgba(36, 36, 46, .4) 220px, rgba(36, 36, 46, .4) 80%, #24242e);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.prueba {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 25px;
+}
+
+.mensaje {
+    background-image: url(mobile4.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 430px;
+    padding: 10px;
+    max-width: 200px;
+    text-align: center;
+}
+
+.mensaje textarea {
+    width: 163px;
+    height: 256px;
+    margin-left: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.mensaje p {
+    margin-bottom: 10px;
+}
+
+.mensaje ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mensaje ul li {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.mensaje button {
+    background-color: #00bfff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mensaje button:hover {
+    background-color: #0056b3;
+}
+
+.how {
+    color: white;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.progresivo{
+    height: 430px;
+    padding: 10px;
+    width: 267px;
+    border: 3px solid black;
+    border-radius: 30px;
+    background: white;
+    padding: 10px;
+
+}
+
+
+.conversacion {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #ccc;
+}
+
+.conversacion img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.conversacion .info {
+    flex: 1;
+}
+
+.conversacion .nombre {
+    font-weight: bold;
+}
+
+.conversacion .chat {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.confian {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+}
+
+.box-confian {
+    display: flex;
+    align-items: center;
+    min-height: 100px;
+    animation: deslizar 20s linear infinite;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.box-confian img,svg {
+    flex: 0 0 auto;
+    margin: 0 10px;
+    padding: 10px;
+}
+
+@keyframes deslizar {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .box-confian {
+        max-width: 100%;
+    }
+}
+
+
+
+.funcionamiento {
+    padding: 10px;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    color: white;
+    margin: 20px;
+}
+
+.funcionamiento h2{
+    font-size: 35px;
+    max-width: 800px;
+    margin: 55px auto;
+    height: 100px;
+}
+
+.funcionamiento p{
+    font-size: 25px;
+}
+
+
+.menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .menu div {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .menu .active {
+            color: white;
+            background-color: #0fbffd;
+            border-radius: 10px;
+        }
+
+        .custom-carousel {
+            position: relative;
+            width: 300px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .custom-carousel .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .custom-carousel .carousel-inner div {
+            min-width: 100%;
+            border: 3px solid white;
+            box-sizing: border-box;
+            padding: 10px;
+            height: 300px;
+        }
+
+        .custom-carousel .carousel-inner .active {
+            border: 3px solid #0fbffd;
+            border-radius: 10px;
+        }
+
+        .custom-carousel .nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            cursor: pointer;
+            user-select: none;
+            z-index: 100;
+        }
+
+        .custom-carousel .nav.prev {
+            left: 10px;
+            font-size: 30px;
+        }
+
+        .custom-carousel .nav.next {
+            right: 10px;
+            font-size: 30px;
+        }
+
+
+        .file-upload-container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-file-upload {
+    font-size: 18px;
+    color: white;
+    padding: 15px 30px;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#file-upload {
+    display: none;
+}
+
+.custom-file-upload:hover {
+    background-color: #333333;
+}
+
+
+
+.ads {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent); /* Propiedad para navegadores que no usen el prefijo -webkit- */
+}
+
+
+.ads:before {
+    background: #05d5ff;
+    border-radius: 200px;
+    content: "";
+    filter: blur(25px);
+    height: 400px;
+    position: absolute;
+    top: 50%; /* Posicionamiento vertical en el centro */
+    left: 50%; /* Posicionamiento horizontal en el centro */
+    transform: translate(-50%, -50%) rotate(30deg); /* Centrado y rotación */
+    width: 50px;
+    z-index: -1; /* Para que el pseudo-elemento esté detrás del contenido principal */
+}
+
+.ads h1 {
+    color: #0fbffd;
+    margin-bottom: 10px;
+    font-size: 35px;
+}
+
+.ads p {
+    margin-bottom: 20px;
+}
+
+.box-ads {
+    display: flex; /* Cambiamos a flexbox para disposición horizontal */
+    flex-wrap: nowrap; /* Evita el wrap en dispositivos pequeños */
+    overflow-x: hidden; /* Barra de desplazamiento horizontal para contenido excesivo */
+    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en dispositivos iOS */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ad {
+    flex: 0 0 auto;
+    /* background-color: #D9FDD2; */
+    padding: 15px;
+    margin: 0 10px;
+    border-radius: 10px;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    animation: slide 10s linear infinite;
+    white-space: normal;
+    box-sizing: border-box;
+    height: 282px;
+    overflow: hidden;
+    text-align: left;
+    width: 220px;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(25px);
+    background-color: rgba(36, 36, 43, .5);
+    color: white;
+
+}
+
+.ad p {
+    margin: 0;
+    word-wrap: break-word;
+    height: calc(100% - 30px); /* Establecer un tamaño en base a la altura de los elementos */
+    overflow: hidden;
+}
+
+.tag-ads, .funcionalidad {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+.tag-ads {
+    background-color: #1a73e8;
+    margin-right: 5px;
+}
+
+.funcionalidad {
+    background-color: #34a853;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .box-ads {
+        flex-wrap: nowrap; /* Evitar el wrap en dispositivos pequeños */
+        overflow-x: hidden; /* Barra de desplazamiento horizontal para contenido excesivo */
+        -webkit-overflow-scrolling: touch; /* Desplazamiento suave en dispositivos iOS */
+    }
+
+    .ad {
+        width: 200px; /* Ancho fijo para dispositivos móviles */
+        margin: 0 5px; /* Espaciado entre elementos */
+    }
+
+    .ads {
+        -webkit-mask-image: none; /* Eliminar la máscara en dispositivos móviles */
+        mask-image: none;
+    }
+}
+
+
+.garantias {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: rgba(36, 36, 43, 0.8); /* Fondo semi-transparente */
+    color: white; /* Color del texto */
+}
+
+.texto-garantia {
+    max-width: 40%;
+    text-align: left;
+    padding: 10px;
+}
+
+.texto-garantia h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.texto-garantia p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.texto-garantia button {
+    padding: 15px 30px;
+    font-size: 1em;
+    color: white;
+    background-color: #00bfff; /* Color del botón */
+    border: none;
+    border-radius: 5px;
+    cursor: url('futuristic-cursor.png'), pointer; /* Cursor futurista para botones */
+    transition: background-color 0.3s;
+}
+
+.texto-garantia button:hover {
+    background-color: #009acd; /* Color del botón al pasar el cursor */
+}
+
+.iconos {
+    display: flex;
+    align-items: center;
+    background: #373741;
+    border-radius: 16px;
+}
+
+.icono {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.icono img {
+    width: 50px; /* Ajusta el tamaño del icono según sea necesario */
+    height: 50px;
+    margin-right: 20px;
+}
+
+.text-icono {
+    text-align: left;
+}
+
+.text-icono h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.text-icono p {
+    font-size: 1em;
+}
+
+/* Adaptaciones para dispositivos móviles */
+@media (max-width: 768px) {
+    .garantias {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .texto-garantia, .iconos {
+        max-width: 100%;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .icono {
+        flex-direction: column;
+        margin: 10px 0;
+        padding: 20px;
+    }
+
+    .icono img {
+        margin: 0 0 10px 0;
+    }
+}
+.faq-section {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(36, 36, 43, 0.8);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+        }
+
+        .faq-question {
+            background-color: #24242b;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #2b2b35;
+            padding: 0 15px;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .faq-answer p {
+            margin: 15px 0;
+        }
+
+        .faq-toggle {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .faq-toggle.rotate {
+            transform: rotate(45deg);
+        }
+
+
+        .faq {
+            text-align: center;
+            color: white;
+        }
+        .impulsa {
+    text-align: center;
+    padding: 50px 20px;
+    color: white;
+}
+
+.impulsa h3 {
+    color: #5ca9fb;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.impulsa h1 {
+    font-size: 2em;
+    margin-bottom: 50px;
+}
+
+.ventajas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.ventaja {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ventaja::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semitransparente */
+    z-index: 1;
+}
+
+.ventaja h1, .ventaja p {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.ventaja h1 {
+
+    margin-bottom: 10px;
+}
+
+.ventaja p {
+    font-size: 1em;
+}
+
+
+
+.modal {
+    /* background-color: white; */
+    padding: 20px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    max-width: 800px;
+    margin: auto;
+}
+
+.planes {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.plan {
+    background: linear-gradient(135deg, #0f2027, #24242e, #24242e);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 45%;
+}
+
+.plan h3 {
+    margin-top: 0;
+}
+
+.precio {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.plan ul {
+    list-style: none;
+    padding: 0;
+}
+
+.plan ul li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.plan ul li::before {
+    content: '✓';
+    color: #5ca9fb;
+    margin-right: 10px;
+}
+
+.boton {
+    display: block;
+    background-color: #5ca9fb;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.boton:hover {
+    background-color: #4896e0;
+}
+
+.boton span {
+    margin-left: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .planes {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan {
+        width: 77%;
+        max-width: 100%;
+    }
+}
+
+.precios{
+    color: white;
+    text-align: center;
+}
+
+
+
+.whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.whatsapp-button::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(37, 211, 102, 0.5);
+    animation: wave 1.5s infinite;
+}
+
+@keyframes wave {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+#whatsapp-icon {
+    width: 60%;
+    height: 60%;
+    z-index: 1;
+}
+
+
+footer.footer {
+    background: linear-gradient(135deg, #0f2027, #24242e, #24242e);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+footer .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    footer p {
+        font-size: 12px;
+    }
+}
+    </style>
+</head>
+<div>
+    <header>
+        <div class="box-header">
+            <div class="logo">
+                <img src="iappointloggo.png" alt="Logo">
+            </div>
+            
+            <div class="menu-toggle" id="menu-toggle">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <nav class="links" id="links">
+                <a href="#funcionamiento">Cómo Funciona</a>
+                <a href="#mensajes">Mensajes Ganadores</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#precios">Precios</a>
+                <a href="https://iappoint.tech/register" class="button">Regístrate Ahora</a>
+                <a href="https://iappoint.tech" class="button-login">Iniciar sesión</a>
+            </nav>
+        </div>
+    </header>
+    <div class="slider">
+        <div class="color"></div>
+        <video autoplay muted loop playsinline>
+    <source src="iappointvideo.mp4" type="video/mp4">
+    Tu navegador no soporta el elemento de video.
+</video>
+
+        <div class="gancho">
+            <h1>Lanza Campañas de Whatsapp Marketing con Inteligencia Artificial</h1>
+            <p>Sin riesgo de ser baneado y a través de una plataforma donde hacer tus seguimientos de la forma correcta.</p>
+            <a href="https://iappoint.tech/register" class="comenzar">Empezar</a>
+            <span>7 días gratis</span>
+        </div>
+        <div class="onboarding">
+            <img src="Crea.png" alt="Onboarding">
+        </div>
+    </div>
+    <div id="funcionamiento" class="funcionamiento" style="margin: auto; color: white;">
+        <h2><span style="font-weight: bold; color: #0fbffd;">IAppoint:</span> Multiplica Tus Resultados por Whatsapp</h2>
+        <p>La manera más sencilla de reactivar conversaciones que creías imposibles con un clic</p>
+
+        <div class="menu">
+            <div id="createMessage" class="active">Crea Tu Mensaje</div>
+            <div id="importDatabase">Importa Tu Base de Datos</div>
+            <div id="launchCampaign">Lanza Tu Campaña</div>
+        </div>
+    
+        <div class="custom-carousel">
+            <div class="nav prev">&lt;</div>
+            <div class="carousel-inner">
+                <div class="active">
+                    <h1>Escribe Tu Mensaje</h1>
+                    <input style="font-size: 18px; background-color: #1a1a1a ; color: white; height: 100px; border-radius: 8px; border: 1px solid white; padding: 5px" type="text" placeholder="Hola Buenas soy Juan Carlos desarrollador y Marketer 🙂.
+                    Estamos buscando 5 Agencias que quieran dar un servicio novedoso de Seteo por Whatsapp para sus clientes ganando un Recurrente Mensual.">
+                    <p style="font-size: 15px;">Puedes usar emogic y shortcodes para personalizar {{nombre}}</p>
+                </div>
+                <div class="file-upload-container">
+                    <h1>Importar Base de Datos</h1>
+                    <label for="file-upload" class="custom-file-upload">
+                        Seleccionar Archivo
+                    </label>
+                    <input id="file-upload" type="file" />
+                    <p style="margin: 0">o</p>
+                    <input type="tel" placeholder="Teléfono" style="font-size: 18px; background-color: #1a1a1a ; color: white; border-radius: 8px; border: 1px solid white; padding: 5px">
+                </div>
+                <div>
+                    <h1>Enviar Campaña</h1>
+                    <button style="color: white; background-color: #0fbffd; border-radius: 10px; font-size: 18px; border: none; padding: 10px">Lanzar Ahora 🚀</button>
+                </div>
+            </div>
+            <div class="nav next">&gt;</div>
+        </div>
+    </div>
+    
+    <!-- <div class="how">
+        <h1>Haz la Prueba</h1>
+        <p>Y entiende el potencial</p>
+    </div> -->
+    <!-- <div class="prueba">
+        
+        <div class="mensaje">
+            <h2 style="margin: 28px 0 0 0">Campaña</h2>
+            <textarea name="" id="texto">Hola {{nombre}} soy Juan Carlos Cruz y hoy te quiero enseñar una herramienta de IA para Setear por Whatsapp.
+                Escribe *SETEO* y te cuento más.
+            </textarea>
+            
+            <button id="enviar">Enviar Campaña</button>
+        </div>
+        <div class="progresivo">
+
+        </div>
+    </div> -->
+<div class="title-confian">
+    <h1 style="text-align: center; color: white">Confían en Nosotros</h1>
+</div>
+    <div class="confian">
+        
+        <div class="box-confian">
+        <img style="width: 100px;" src="partner1.svg" alt="">
+        <img style="width: 50px;" src="partner2.svg" alt="">
+        <img style="width: 100px;" src="partner3.svg" alt="">
+        <img style="width: 100px;" src="partner4.svg" alt="">
+        <img style="width: 100px;" src="partner5.png" alt="">
+        <img style="width: 100px;" src="partner1.svg" alt="">
+        <img style="width: 100px;" src="telefonica.svg" alt="">
+        <img style="width: 100px;" src="partner6.svg" alt="">
+        </div>
+    </div>
+    <div class="ads" id="mensajes">
+        <h1>Cientos de Mensajes Funcionando</h1>
+        <p style="color: white; font-size: 25px;">Muchos sectores exprimiendo sus bases de datos</p>
+        <div class="box-ads">
+            <div class="ad">
+                <p>Hola soy Aitor Maldonado y te has registrado en mis anuncios de Facebook. ¿Quería saber en qué estás más interesado?</p>
+                <span class="tag-ads">Formación R2R</span><span class="funcionalidad">Auto</span>
+            </div>
+            <div class="ad">
+                <p>Hola soy TimyRent y estoy buscando  5 inmobiliarias que quieran trabajar conmigo. Escribe la palabra "Colaboración" y te doy más información</p>
+                <span class="tag-ads">Scrapping Cold</span><span class="funcionalidad">Seteo</span>
+            </div>
+            <div class="ad">
+                <p>Soy Juan Carlos Desarrollador y Marketer y estoy buscando a 5 Agencias que quieran ofrecer un servicio de Seteo por Whatsapp y ganar un recurrente mensual. Escribe SETEO y te doy más información</p>
+                <span class="tag-ads">Scrapping</span> <span class="funcionalidad">Tech</span>
+            </div>
+            <div class="ad">
+                <p>Hola soy Victor de sushiwakkaexpress.com del Local de Alcalá 337. Te traemos la Bandeja de 16 piezas Maki 🍣🍱 de Regalo en tu pedido superior a 25€. Para recoger en local o domicilio. 
+                    Llama ahora 910018461 | 652012670 con la palabra REGALO16 </p>
+                <span class="tag-ads">Base de Datos Clientes</span> <span class="funcionalidad">Franquicia</span>
+            </div>
+            <div class="ad">
+                <p>Bonjour Salon massages & soins, vous venez de vous inscrire à notre Annonce de Wonder Technology🔵(https://www.wonder.clinic/es/face)
+
+                    Je suis Julio Duarte et je serai ravi de vous aider. Avant de continuer, j'aimerais savoir si...
+                    
+                    Êtes-vous un professionnel du secteur ?  </p>
+                <span class="tag-ads">Tik Tok Ads</span> <span class="funcionalidad">Electroestimulacion</span>
+            </div>
+            <div class="ad">
+                <p>¿Quieres fidelizar más a tus clientes de forma recurrente en tu Tienda de Toldos?
+
+                    Aprovecha los mejores meses de tu sector, con una herramienta de Whatsapp Marketing para contactar con un click a todos tus clientes.
+                    También Gestionamos el Kit Digital  Gratuitamente hasta 12.000€
+                    Soy Ismael de StuMarketing.com y estoy aquí para atenderte.
+                    
+                    Escribe la palabra CLIENTES y te damos más información sin compromiso
+                    
+                    Responde Baja para no recibir mensajes</p>
+                <span class="tag-ads">Kit Digital</span> <span class="funcionalidad">Electroestimulacion</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="impulsa" id="resultados">
+        <h3>MEJORA TUS RESULTADOS</h3>
+        <h1>Impulsa Tu Negocio con Whatsapps Creativos</h1>
+        <div class="ventajas">
+            <div class="ventaja" style="background-image: url('fondo1.png');">
+                <h1>99% de Entrega</h1>
+                <p>Llega a todos los usuarios que tengan whatsapp sin ser restrigido</p>
+            </div>
+            <div class="ventaja" style="background-image: url('fondo2.png');">
+                <h1>80% de Apertura</h1>
+                <p>Muy por encima de Email Marketing y SMS Marketing</p>
+            </div>
+            <div class="ventaja" style="background-image: url('fondo3.png');">
+                <h1>50% de Respuesta en Caliente</h1>
+                <p>Para bases de datos de clientes potencial que ya nos conocen , el porcentaje de respuesta se dispara.</p>
+            </div>
+            <div class="ventaja" style="background-image: url('fondo4.png');">
+                <h1>20% de Conversión</h1>
+                <p>Conversión</p>
+            </div>
+            <div class="ventaja" style="background-image: url('fondo5.png');">
+                <h1>Ahorra más de 1200€ en Publicidad SEM</h1>
+                <p>Reactiva conversaciones con Whatsapps creativos</p>
+            </div>
+            <div class="ventaja" style="background-image: url('fondo6.png');">
+                <h1>Impacta 3000 Clientes al mes</h1>
+                <p>Consigue retorno con sólo 1 minuto en lanzar. Nunca un software ha sido tan sencillo</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="garantias">
+        <div class="texto-garantia">
+            <h1>El Facebook Ads para Whatsapp</h1>
+            <p>Lanza campañas sin miedo a ser catalogado como spam. Sigue nuestra guía y consigue grandes resultados</p>
+            <a href="https://iappoint.tech/register" class="comenzar">Empezar</a>
+        </div>
+        <div class="iconos">
+            <div class="box-icono">
+                <div class="icono">
+                    <img src="compra.svg" alt="">
+                    <div class="text-icono">
+                        <h3>Pago Seguro</h3>
+                        <p>Usamos Stripe el método por excelencia más seguro</p>
+                    </div>
+                </div>
+                <div class="icono">
+                    <img src="garantia-icon5.svg" alt="">
+                    <div class="text-icono">
+                        <h3>
+                            Contenido protegido</h3>
+                        <p>Tus Leads están protegidos</p>
+                    </div>
+                </div>
+                <div class="icono">
+                    <img src="ia2.png" alt="">
+                    <div class="text-icono">
+                        <h3>IA</h3>
+                        <p>Usamos Inteligencia Artificial en los procesos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="box-icono">
+                <div class="icono">
+                    <img src="garantia-icon2.svg" alt="">
+                    <div class="text-icono">
+                        <h3>Atención Personalizada</h3>
+                        <p>Siempre listos para ayudarte</p>
+                    </div>
+                </div>
+                <div class="icono">
+                    <img src="garantia-icon4.svg" alt="">
+                    <div class="text-icono">
+                        <h3>Profesionales calificados</h3>
+                        <p>Expertos seleccionados con cuidado</p>
+                    </div>
+                </div>
+                <div class="icono">
+                    <img src="scrapping.png" alt="">
+                    <div class="text-icono">
+                        <h3>Scrapping</h3>
+                        <p>Descarga Data de Google My Business</p>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+    </div>
+
+
+    <div class="precios" id="precios">
+        <h1>Precios</h1>
+    </div>
+    <div class="modal">
+        <div class="planes">
+            <div class="plan">
+                <h1>Plan Basic</h1>
+                <p class="precio">99€/MES</p>
+                <ul>
+                    <li>On Boarding</li>
+                    <li>1 Usuario 1 Whatsapp</li>
+                    <li>Sin límite de envíos</li>
+                    <li>Asesoría Whatsapp</li>
+                    <li>Sin límite de BBDD</li>
+                    <li>Para Autónomos y Pymes</li>
+                </ul>
+                <a href="https://iappoint.tech/register" class="boton">ACTIVAR PLAN <span>→</span></a>
+            </div>
+            <div class="plan">
+                <h1>Plan IAPPOINT</h1>
+                <p class="precio">490€/MES</p>
+                <ul>
+                    <li>On Boarding</li>
+                    <li>Hasta 4 Usuarios</li>
+                    <li>Sin límite de envíos</li>
+                    <li>Asesoría Whatsapp</li>
+                    <li>Sin límite de BBDD</li>
+                    <li>Nos ocupamos de toda la operativa: Garantizamos nº de lanzamientos por día</li>
+                    <li>Para Autónomos y Pymes</li>
+                </ul>
+                <a href="#formulario" class="boton">CONTACTAR <span>→</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq">
+        <h1>Preguntas Frecuentes</h1>
+    </div>
+
+    <div class="faq-section">
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Tengo riesgos de perder mi cuenta de Whatsapp?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>No, nuestra plataforma utiliza métodos seguros que cumplen con las políticas de WhatsApp para evitar el baneo de cuentas.</p>
+            </div>
+        </div>
+        <!-- Repite la estructura .faq-item para cada pregunta -->
+        <!-- Preguntas adicionales -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Cuántos mensajes puedo enviar al día?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>El límite de mensajes depende del plan que hayas elegido. Consulta nuestros planes para más detalles.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Puedo utilizar un número nuevo solo para esto?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, puedes registrar un número nuevo exclusivamente para tus campañas de WhatsApp marketing.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Podéis ver mis mensajes de WhatsApp?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>No, todos los mensajes enviados a través de nuestra plataforma son encriptados y no tenemos acceso a su contenido.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Si me banean la cuenta, la puedo recuperar?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>En la mayoría de los casos, las cuentas baneadas no pueden ser recuperadas. Sin embargo, seguiremos todas las medidas para evitar que esto suceda.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué pasa si he pagado el servicio y me banean la cuenta?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Ofrecemos reembolsos parciales según el tiempo restante de tu suscripción en caso de baneo injustificado.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué es iappoint.tech y qué servicios ofrece?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>iappoint.tech es una plataforma que facilita la automatización de mensajes de marketing a través de WhatsApp, permitiendo a los usuarios gestionar sus campañas de manera eficiente y segura.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Cómo funciona la plataforma de automatización de mensajes a través de WhatsApp de iappoint.tech?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>La plataforma permite programar y enviar mensajes automatizados a través de WhatsApp, utilizando herramientas de segmentación y personalización para maximizar el impacto de tus campañas.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Cuáles son los requisitos para registrarse y comenzar a utilizar iappoint.tech?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Para registrarte en iappoint.tech, solo necesitas una cuenta de WhatsApp activa y un método de pago válido.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué diferencia hay entre el período de prueba gratuito y los planes de pago?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>El período de prueba gratuito te permite explorar todas las funcionalidades de la plataforma con un límite en la cantidad de mensajes. Los planes de pago ofrecen mayor capacidad y funcionalidades avanzadas.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Cómo puedo configurar mi cuenta y comenzar a enviar mensajes automatizados?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Una vez registrado, sigue la guía de configuración en tu panel de control para conectar tu cuenta de WhatsApp y comenzar a crear y enviar mensajes automatizados.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué medidas de seguridad implementa iappoint.tech para proteger mis datos personales?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Implementamos encriptación avanzada y seguimos las mejores prácticas de seguridad para asegurar que tus datos personales y mensajes estén protegidos.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué métodos de pago acepta iappoint.tech para sus planes de suscripción?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Aceptamos diversas formas de pago, incluyendo tarjetas de crédito, débito y PayPal.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Qué sucede si no realizo el pago mensual a tiempo?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Si no realizas el pago a tiempo, tu cuenta será suspendida temporalmente hasta que se reciba el pago pendiente.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>¿Cuál es el proceso para solicitar un reembolso y bajo qué condiciones se puede hacer?</span>
+                <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Para solicitar un reembolso, contacta a nuestro soporte técnico. Los reembolsos están sujetos a nuestras políticas y condiciones de uso.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="whatsapp-button">
+        <img src="whatsapp-rounded-icon.svg" alt="WhatsApp" id="whatsapp-icon">
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 I-APPOINT LLC</p>
+            <p>EIN: 61-2158009</p>
+            <p>30 N GOULD ST STE R SHERIDAN, WY 82801</p>
+        </div>
+    </footer>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const links = document.getElementById('links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            links.classList.toggle('active');
+        });
+
+//         document.getElementById('enviar').addEventListener('click', function() {
+//     let textoCompleto = document.getElementById('texto').value.trim();
+//     let primerasTresPalabras = textoCompleto.split(' ').slice(0, 3).join(' ');
+
+//     let progresivoDiv = document.querySelector('.progresivo');
+
+//     for (let i = 0; i < 6; i++) {
+//         let telefono = '+34 6' + Math.floor(Math.random() * 10000000).toString().padStart(8, '0');
+//         let nombre = 'Contacto';
+
+//         let conversacion = document.createElement('div');
+//         conversacion.classList.add('conversacion');
+//         conversacion.innerHTML = `
+//             <img src="user.png" alt="Foto de perfil">
+//             <div class="info">
+//                 <div class="nombre">${telefono}</div>
+//                 <div class="chat">${primerasTresPalabras}</div>
+//             </div>
+//             <hr>
+//         `;
+
+//         setTimeout(() => {
+//             progresivoDiv.appendChild(conversacion);
+//         }, (i + 1) * 2000);
+//     }
+// });
+
+// document.getElementById('enviar').addEventListener('click', function() {
+//     let progresivoDiv = document.querySelector('.progresivo');
+//     progresivoDiv.classList.add('iluminado');
+// });
+
+const menuItems = document.querySelectorAll('.menu div');
+        const carouselInner = document.querySelector('.custom-carousel .carousel-inner');
+        const carouselItems = document.querySelectorAll('.custom-carousel .carousel-inner div');
+        const prev = document.querySelector('.custom-carousel .nav.prev');
+        const next = document.querySelector('.custom-carousel .nav.next');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            carouselItems.forEach((item, index) => {
+                item.classList.toggle('active', index === currentIndex);
+            });
+            carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                currentIndex = index;
+                updateCarousel();
+            });
+        });
+
+        prev.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = carouselItems.length - 1;
+            }
+            updateCarousel();
+        });
+
+        next.addEventListener('click', () => {
+            if (currentIndex < carouselItems.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+            updateCarousel();
+        });
+
+        // Initial update to set the correct position on load
+        updateCarousel();
+
+
+        document.querySelectorAll('.faq-question').forEach((item) => {
+            item.addEventListener('click', () => {
+                const answer = item.nextElementSibling;
+                const toggle = item.querySelector('.faq-toggle');
+                
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                    toggle.classList.remove('rotate');
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                    toggle.classList.add('rotate');
+                }
+            });
+        });
+
+        document.querySelector('.whatsapp-button').addEventListener('click', function() {
+    window.location.href = 'https://api.whatsapp.com/send?phone=+34679638692&text=Quiero%20empezar%20mi%20cuenta%20IAppoint';
+});
+
+
+
+
+    </script>
+    <!-- Meta Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '867164405236592');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=867164405236592&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+</body>
+</html>
